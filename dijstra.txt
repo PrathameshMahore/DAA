@@ -1,0 +1,62 @@
+// Shree Ganesha
+// Dijkstra
+
+#include <stdio.h>
+#include <limits.h>
+
+#define MAX_SIZE 100
+
+int main() {
+    int ver;
+    printf("Enter the number of vertices\n");
+    scanf("%d", &ver);
+
+    int adj_mat[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < ver; i++) {
+        for (int j = i + 1; j < ver; j++) {
+            printf("Enter value for %d-%d: ", i, j);
+            scanf("%d", &adj_mat[i][j]);
+            adj_mat[j][i] = adj_mat[i][j];
+        }
+    }
+
+    printf("The adjacency matrix is:\n");
+    for (int i = 0; i < ver; i++) {
+        for (int j = 0; j < ver; j++) {
+            printf("%d\t", adj_mat[i][j]);
+        }
+        printf("\n");
+    }
+
+    int source = 0;
+    int old_value[MAX_SIZE];
+    int vist[MAX_SIZE] = {0};
+
+    for (int i = 0; i < ver; i++) {
+        old_value[i] = INT_MAX;
+    }
+    old_value[source] = 0; // Distance from source to source is 0
+
+    for (int i = 0; i < ver - 1; i++) {
+        int mini = INT_MAX;
+        int temp;
+
+        for (int j = 0; j < ver; j++) {
+            if (i != j && adj_mat[source][j] != 0 && vist[j] == 0) {
+                old_value[j] = old_value[j] < (old_value[source] + adj_mat[source][j]) ? old_value[j] : (old_value[source] + adj_mat[source][j]);
+                if (old_value[j] < mini) {
+                    mini = old_value[j];
+                    temp = j; // Update the source later after the inner loop
+                }
+            }
+        }
+        vist[source] = 1;
+        source = temp;
+    }
+
+    for (int i = 0; i < ver; i++) {
+        printf("Shortest distance between 0 and %d is %d\n", i, old_value[i]);
+    }
+
+    return 0;
+}

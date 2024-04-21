@@ -1,0 +1,66 @@
+// Shree Ganesha
+// DFS -> using stack
+
+#include <stdio.h>
+
+#define MAX_VERTICES 100
+
+int main() {
+    int ver;
+    int myStack[MAX_VERTICES]; // Stack for DFS
+    int top = -1;
+    
+    printf("Enter the number of vertices:\n");
+    scanf("%d", &ver);
+    
+    int adj_mat[MAX_VERTICES][MAX_VERTICES];
+    
+    // Initialize adjacency matrix
+    for (int i = 0; i < ver; i++) {
+        adj_mat[i][i] = 0;
+        for (int j = i + 1; j < ver; j++) {
+            printf("Enter value for %d-%d: ", i, j);
+            scanf("%d", &adj_mat[i][j]);
+            adj_mat[j][i] = adj_mat[i][j];
+        }
+    }
+    
+    printf("The adjacency matrix is:\n");
+    for (int i = 0; i < ver; i++) {
+        for (int j = 0; j < ver; j++) {
+            printf("%d\t", adj_mat[i][j]);
+        }
+        printf("\n");
+    }
+    
+    int vist[MAX_VERTICES] = {0}; // Visited array, initialized to 0
+    
+    int root_node = 0; // Start DFS from root node
+    myStack[++top] = root_node;
+    printf("%d\t", root_node);
+    vist[root_node] = 1;
+    
+    int i;
+    int flag;
+    while (top >= 0) {
+        root_node = myStack[top];
+        flag = 0; // All vertices initially unvisited
+        
+        for (i = 0; i < ver; i++) {
+            if (adj_mat[root_node][i] == 1 && vist[i] == 0) {
+                myStack[++top] = i;
+                printf("%d\t", i);
+                vist[i] = 1;
+                flag = 1; // Unvisited adjacent vertex found
+                break;
+            }
+        }
+        
+        if (flag == 0) {
+            // All adjacent vertices visited, pop and backtrack
+            top--;
+        }
+    }
+    
+    return 0;
+}

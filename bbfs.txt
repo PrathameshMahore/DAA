@@ -1,0 +1,73 @@
+// Shree Ganesha
+// BFS using queue
+
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+int check(int queue[], int rear, int x) {
+    // Check if the element x is already in the queue
+    for (int i = 0; i <= rear; i++) {
+        if (queue[i] == x) {
+            // Element is already in the queue
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    int ver;
+    printf("Enter the number of vertices:\n");
+    scanf("%d", &ver);
+
+    int adj_mat[MAX_SIZE][MAX_SIZE];
+    for (int i = 0; i < ver; i++) {
+        adj_mat[i][i] = 0;
+        for (int j = i + 1; j < ver; j++) {
+            printf("Enter value for %d-%d: ", i, j);
+            scanf("%d", &adj_mat[i][j]);
+            adj_mat[j][i] = adj_mat[i][j];
+        }
+    }
+
+    printf("The adjacency matrix is:\n");
+    for (int i = 0; i < ver; i++) {
+        for (int j = 0; j < ver; j++) {
+            printf("%d\t", adj_mat[i][j]);
+        }
+        printf("\n");
+    }
+
+    int source = 0;
+    int vist[MAX_SIZE] = {0};  // Array to keep track of visited nodes
+
+    // Initialize queue for BFS
+    int queue[MAX_SIZE];
+    int front = 0, rear = -1;
+
+    // Push the source node into the queue
+    rear++;
+    queue[rear] = source;
+    printf("The BFS is:\n");
+    
+    while (front <= rear) {
+        // Dequeue the current node
+        int cur = queue[front];
+        front++;
+        printf("%d\t", cur);
+        vist[cur] = 1;  // Mark the current node as visited
+
+        // Explore the adjacent vertices
+        for (int i = 0; i < ver; i++) {
+            if (adj_mat[cur][i] == 1 && vist[i] == 0) {
+                if (check(queue, rear, i)) {
+                    // If the vertex is not already in the queue, enqueue it
+                    rear++;
+                    queue[rear] = i;
+                }
+            }
+        }
+    }
+    return 0;
+}

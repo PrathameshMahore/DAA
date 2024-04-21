@@ -1,0 +1,73 @@
+// Shree Ganesha
+// Knapsack Fractional problem
+
+#include <stdio.h>
+
+struct object {
+    float profit;
+    float weight;
+    float profitPerWeight;
+};
+
+void swap(struct object *a, struct object *b) {
+    struct object temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int main() {
+    struct object obj[10];
+    int n;
+    printf("Enter the number of objects:\n");
+    scanf("%d", &n);
+    printf("Enter the maximum capacity:\n");
+    int maxWeight;
+    scanf("%d", &maxWeight);
+    
+    // Taking input
+    for (int i = 0; i < n; i++) {
+        printf("Enter the profit and weight for object %d:\n", i + 1);
+        scanf("%f %f", &obj[i].profit, &obj[i].weight);
+        obj[i].profitPerWeight = obj[i].profit / obj[i].weight;
+    }
+    
+    // Display the input data
+    for (int i = 0; i < n; i++) {
+        printf("Profit and weight for object %d:\n", i + 1);
+        printf("Profit: %f, Weight: %f, Profit/Weight: %f\n", obj[i].profit, obj[i].weight, obj[i].profitPerWeight);
+    }
+    
+    // Sorting in decreasing order of profit per weight
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (obj[j].profitPerWeight < obj[j + 1].profitPerWeight) {
+                swap(&obj[j], &obj[j + 1]);
+            }
+        }
+    }
+    
+    printf("After sorting:\n");
+    for (int i = 0; i < n; i++) {
+        printf("Profit and weight for object %d:\n", i + 1);
+        printf("Profit: %f, Weight: %f, Profit/Weight: %f\n", obj[i].profit, obj[i].weight, obj[i].profitPerWeight);
+    }
+    
+    float maxProfit = 0;
+    int i = 0;
+    printf("Weights as per requirements are taken as follows:\n");
+    while (maxWeight > 0) {
+        if (maxWeight >= obj[i].weight) {
+            maxProfit += obj[i].profit;
+            printf("Full weight taken of %f\n", obj[i].weight);
+            maxWeight -= obj[i].weight;
+        } else {
+            maxProfit += (obj[i].profit * maxWeight) / obj[i].weight;
+            printf("%f of %f weight taken\n", (float) maxWeight / obj[i].weight, obj[i].weight);
+            maxWeight = 0;
+        }
+        i++;
+    }
+    
+    printf("Maximum profit is %f\n", maxProfit);
+    return 0;
+}

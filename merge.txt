@@ -1,0 +1,88 @@
+// Shree Ganesha
+// Merge sort implementation
+
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+void merge(int arr[], int lb, int mid, int ub);
+void mergeSort(int arr[], int lb, int ub);
+
+void mergeSort(int arr[], int lb, int ub) {
+    if (lb < ub) {
+        int mid = (lb + ub) / 2;
+        mergeSort(arr, lb, mid);
+        mergeSort(arr, mid + 1, ub);
+        merge(arr, lb, mid, ub);
+    }
+}
+
+void merge(int arr[], int lb, int mid, int ub) {
+    int i = lb;
+    int j = mid + 1;
+    int k = lb;
+    int b[MAX_SIZE]; // Temporary array
+
+    // Merge the two halves
+    while (i <= mid && j <= ub) {
+        if (arr[i] <= arr[j]) {
+            b[k] = arr[i];
+            i++;
+        } else {
+            b[k] = arr[j];
+            j++;
+        }
+        k++;
+    }
+    
+    // Copy the remaining elements from the first half
+    while (i <= mid) {
+        b[k] = arr[i];
+        i++;
+        k++;
+    }
+    
+    // Copy the remaining elements from the second half
+    while (j <= ub) {
+        b[k] = arr[j];
+        j++;
+        k++;
+    }
+    
+    // Copy the sorted elements back to the original array
+    for (i = lb; i <= ub; i++) {
+        arr[i] = b[i];
+    }
+}
+
+int main() {
+    int elem;
+    printf("Enter the number of elements:\n");
+    scanf("%d", &elem);
+    
+    int arr[MAX_SIZE];
+    printf("Enter the elements:\n");
+    for (int i = 0; i < elem; i++) {
+        scanf("%d", &arr[i]);
+    }
+    
+    printf("Before sorting:\n");
+    for (int i = 0; i < elem; i++) {
+        printf("%d\t", arr[i]);
+    }
+    printf("\n");
+    
+    int lb = 0;
+    int ub = elem - 1;
+    
+    // Sort the array
+    mergeSort(arr, lb, ub);
+    
+    printf("After sorting:\n");
+    for (int i = 0; i < elem; i++) {
+        printf("%d\t", arr[i]);
+    }
+    printf("\n");
+    
+    return 0;
+}
