@@ -1,0 +1,121 @@
+// Shree Ganesha
+#include<iostream>
+#include<algorithm>
+#include<climits>
+#include<queue>
+using namespace std;
+
+int check(queue<int>q , int x){
+    queue<int> copyQueue = q ;
+    while(!copyQueue.empty()){
+        if(x==copyQueue.front()){
+            // cout<<"Already in queue"<<endl;
+            return 0;
+        }
+        copyQueue.pop();
+    }
+    return 1;
+}
+
+int main(){
+    int ver ;
+   queue<int> myQueue ;
+    cout<<"Enter no of vertices :"<<endl;
+    cin>>ver;
+    int adj_mat[ver][ver];
+    for(int i=0;i<ver;i++){
+        adj_mat[i][i] = 0;
+        for(int j=i+1;j<ver;j++){
+            cout<<"Enter value for "<<i<<"-"<<j<<" ";
+            cin>>adj_mat[i][j];
+            adj_mat[j][i] = adj_mat[i][j] ;
+        }
+    }
+    cout<<"The adjacency matrix is :\n";
+    for(int i=0;i<ver;i++){
+        for(int j=0;j<ver;j++){
+            cout<<adj_mat[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+    int source = 0;
+    int vist[ver] ;
+    for(int i=0;i<ver;i++){
+        vist[i] = 0;
+    }
+    //logic...
+    int cur ;
+    myQueue.push(source);
+    cout<<"The BFS is "<<endl;
+    while(!myQueue.empty()){
+        cur = myQueue.front();
+        myQueue.pop();
+        cout<<cur<<"\t";
+        vist[cur] = 1;
+        for(int i=0;i<ver;i++){
+            if(adj_mat[cur][i]==1 && vist[i]==0){
+                if(check(myQueue,i)){
+                    myQueue.push(i);
+                }
+            }
+        }
+    }
+    return 0 ;
+}
+
+//sample output 1 :
+
+//  1
+//  0
+//  1
+//  0
+//  0
+//  0
+//  1
+//  1
+//  0
+//  1
+//  1
+//  1
+//  1
+//  1
+//  0
+//  1
+//  0
+//  0
+//  0
+//  1
+//  0
+
+//sample output 2 :
+
+
+//   0 1 2 3 4
+// 0 0 1 0 1 0
+// 1 1 0 1 0 1
+// 2 0 1 0 1 1
+// 3 1 0 1 0 0
+// 4 0 1 1 0 0
+
+output --->
+Enter no of vertices :
+5
+Enter value for 0-1 1
+Enter value for 0-2 0
+Enter value for 0-3 1
+Enter value for 0-4 0
+Enter value for 1-2 1
+Enter value for 1-3 0
+Enter value for 1-4 1
+Enter value for 2-3 1
+Enter value for 2-4 1
+Enter value for 3-4 0
+The adjacency matrix is :
+0	1	0	1	0	
+1	0	1	0	1	
+0	1	0	1	1	
+1	0	1	0	0	
+0	1	1	0	0	
+0	1	3	2	4	
+
+=== Code Execution Successful ===

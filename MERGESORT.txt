@@ -1,0 +1,88 @@
+//Shree Ganesha
+#include<iostream>
+#include<algorithm>
+#include<climits>
+using namespace std;
+void merge(int[] , int,  int , int);
+void mergeSort(int[] , int , int);
+
+void mergeSort(int arr[] , int lb , int ub){
+	if(lb<ub){
+		int mid = (lb + ub)/2;
+		mergeSort(arr,lb,mid);
+		mergeSort(arr,mid+1,ub);
+		merge(arr,lb,mid,ub);
+	}
+}
+
+void merge(int arr[] , int lb , int mid , int ub){
+	int i = lb;
+	int j = mid + 1;
+	int k = lb ;
+	int b[ub];
+	while(i<=mid && j<=ub){
+		if(arr[i]<=arr[j]){
+			b[k] = arr[i];
+			i++;
+		}
+		else{
+			b[k] = arr[j];
+			j++;
+		}
+		k++;
+	}
+	if(i>mid){
+		while(j<=ub){
+			b[k] = arr[j];
+			j++,k++;
+		}
+	} 
+	else{
+		while(i<=mid){
+			b[k] = arr[i];
+			i++,k++;
+		}
+	}
+	for(int i=lb;i<=ub;i++){
+		arr[i] = b[i] ;
+	}
+	 
+}
+
+int main(){
+	int elem;
+	cout<<"Enter the no of elements"<<endl;
+	cin>>elem;
+	int arr[elem];
+	cout<<"Enter the elements"<<endl;
+	for(int i=0;i<elem;i++){
+		cin>>arr[i];
+	}
+	cout<<"Before sorting"<<endl;
+	for(int i=0;i<elem;i++){
+		cout<<arr[i]<<"\t";
+	}
+	cout<<endl;
+	int lb = 0 ;
+	int ub = elem-1 ;
+	mergeSort(arr,lb,ub);
+	cout<<"After sorting"<<endl;
+	for(int i=0;i<elem;i++){
+		cout<<arr[i]<<"\t";
+	}
+	return 0;
+
+}
+
+
+output-->
+Enter the no of elements
+7
+Enter the elements
+38 27 43 3 9 82 10
+Before sorting
+38	27	43	3	9	82	10	
+After sorting
+3	9	10	27	38	43	82	
+
+=== Code Execution Successful ===

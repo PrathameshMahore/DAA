@@ -1,0 +1,129 @@
+// Shree Ganesha
+//Knapsack Fractional problem
+#include<iostream>
+#include<climits>
+#include<bits/stdc++.h>
+using namespace std;
+
+struct object{
+  float profit ;
+  float weight ;
+  float profitPerWeight;
+};
+
+int main(){
+    struct object obj[10];
+    int n;
+    cout<<"Enter the no. of objects "<<endl;
+    cin>>n;
+    obj[n];
+    cout<<"Enter the maximum capacity "<<endl;
+    int maxWeight ;
+    cin>>maxWeight;
+    
+    //taking input-->
+    for(int i=0;i<n;i++){
+        cout<<"Enter the Profit and Weight for Object "<<i+1<<endl;
+        cin>>obj[i].profit;
+        cin>>obj[i].weight;
+        obj[i].profitPerWeight = (obj[i].profit/obj[i].weight) ;
+    }
+    for(int i=0;i<n;i++){
+        cout<<"the Profit and Weight for Object "<<i+1<<endl;
+        cout<<"Profit-->\t"<<obj[i].profit<<"\tWeight-->";
+        cout<<obj[i].weight;
+        cout<<"\tProfit/Weight--> "<<obj[i].profitPerWeight;
+        cout<<endl;
+    }
+    
+    //sorting in decreasing order
+    for(int i=0;i<n-1;i++){
+        for(int j=0;j<n-1-i;j++){
+            if(obj[j].profitPerWeight<obj[j+1].profitPerWeight){
+                swap(obj[j],obj[j+1]);
+            }
+        }
+    }
+    
+    cout<<"After Sorting-->"<<endl;
+    for(int i=0;i<n;i++){
+        cout<<"the Profit and Weight for Object "<<i+1<<endl;
+        cout<<"Profit-->\t"<<obj[i].profit<<"\tWeight-->";
+        cout<<obj[i].weight;
+        cout<<"\tProfit/Weight--> "<<obj[i].profitPerWeight;
+        cout<<endl;
+    }
+    float maxProfit = 0;
+    int i=0;
+    cout<<"So weights as per reqirements are taken as --->"<<endl;
+    while(maxWeight!=0){
+        if(maxWeight>=obj[i].weight){
+            maxProfit += obj[i].profit ;
+            cout<<"Full Weight taken of "<<obj[i].weight<<"\n";
+            maxWeight -= obj[i].weight ;
+        }
+        else{
+            maxProfit += ((obj[i].profit*maxWeight)/obj[i].weight);
+            cout<<(maxWeight/obj[i].weight)<<" of "<<obj[i].weight<<" weight taken"<<"\n";
+            maxWeight = 0;
+        }
+        i++;
+    }
+    
+    cout<<"MAX_PROFIT is "<<maxProfit<<endl;
+    return 0;
+}
+
+OUTPUT--->
+Enter the no. of objects 
+7
+Enter the maximum capacity 
+15
+Enter the Profit and Weight for Object 1
+5 1 10 3 15 5 7 4 8 1 9 3 4 2
+Enter the Profit and Weight for Object 2
+Enter the Profit and Weight for Object 3
+Enter the Profit and Weight for Object 4
+Enter the Profit and Weight for Object 5
+Enter the Profit and Weight for Object 6
+Enter the Profit and Weight for Object 7
+the Profit and Weight for Object 1
+Profit-->	5	Weight-->1	Profit/Weight--> 5
+the Profit and Weight for Object 2
+Profit-->	10	Weight-->3	Profit/Weight--> 3.33333
+the Profit and Weight for Object 3
+Profit-->	15	Weight-->5	Profit/Weight--> 3
+the Profit and Weight for Object 4
+Profit-->	7	Weight-->4	Profit/Weight--> 1.75
+the Profit and Weight for Object 5
+Profit-->	8	Weight-->1	Profit/Weight--> 8
+the Profit and Weight for Object 6
+Profit-->	9	Weight-->3	Profit/Weight--> 3
+the Profit and Weight for Object 7
+Profit-->	4	Weight-->2	Profit/Weight--> 2
+After Sorting-->
+the Profit and Weight for Object 1
+Profit-->	8	Weight-->1	Profit/Weight--> 8
+the Profit and Weight for Object 2
+Profit-->	5	Weight-->1	Profit/Weight--> 5
+the Profit and Weight for Object 3
+Profit-->	10	Weight-->3	Profit/Weight--> 3.33333
+the Profit and Weight for Object 4
+Profit-->	15	Weight-->5	Profit/Weight--> 3
+the Profit and Weight for Object 5
+Profit-->	9	Weight-->3	Profit/Weight--> 3
+the Profit and Weight for Object 6
+Profit-->	4	Weight-->2	Profit/Weight--> 2
+the Profit and Weight for Object 7
+Profit-->	7	Weight-->4	Profit/Weight--> 1.75
+So weights as per reqirements are taken as --->
+Full Weight taken of 1
+Full Weight taken of 1
+Full Weight taken of 3
+Full Weight taken of 5
+Full Weight taken of 3
+Full Weight taken of 2
+MAX_PROFIT is 51
+
+
+=== Code Execution Successful ===
